@@ -1,0 +1,51 @@
+{% extends 'home/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>Login</title>
+{% endblock %}
+
+{% block body %}
+
+<section class="container primary-color-1 border rounded mt-5 shadow-lg">
+    <div class="container">
+        <div class="row  justify-content-center align-items-center">
+            <h2 class="text-center mt-3 mb-3" >Log In</h2>
+            <div class="col-md-6">
+                {% if massage %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ massage }}
+                    </div>
+                {% endif %}
+
+                <form class="form-control mb-3" action="{% url 'user:login_view' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                      <label for="username" class="form-label">User Name</label>
+                      <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-user fa-lg fa-fw"></i></span>
+                          <input type="text" class="form-control " id="username" required name="username">
+
+                      </div>
+                  </div>
+
+                    <div class="mb-3">
+                      <label for="password" class="form-label">Password</label>
+                      <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-lock fa-lg fa-fw"></i></span>
+                          <input type="password"  class="form-control" id="password" required name="password">
+
+                      </div>
+                  </div>
+
+                    <div class="mb-3 text-center">
+                        <button type="submit" class="btn btn-primary">LogIn</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
