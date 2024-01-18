@@ -29,7 +29,7 @@ def signup_view(request:HttpRequest):
         try:
 
             new_user = User.objects.create_user(username=request.POST['username'],email=request.POST['email'],password=request.POST['password'])
-
+            new_user.save()
             user_field = request.POST['selected_option']
 
             if user_field == 'student':
@@ -42,12 +42,16 @@ def signup_view(request:HttpRequest):
                     group = Group.objects.get(name="hospital")
                     new_user.groups.add(group)
             
-            user = authenticate(request, username=request.POST['username'],password=request.POST['password'])
+            new_user = authenticate(request, username=request.POST['username'],password=request.POST['password'])
 
-            if user:
-                login(request,user)
+            if new_user:
+                login(request,new_user)
             
-            return redirect('user:profile_view',request.user.id)
+            if user_field == 'student':
+
+                return redirect('user:profile_view',request.user.id)
+            else:
+                return redirect('home:home_view')
         
         except Exception as e:
             massage = f'this is th eroor'
