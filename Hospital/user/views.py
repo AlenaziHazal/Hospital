@@ -49,7 +49,7 @@ def signup_view(request:HttpRequest):
             
             if user_field == 'student':
 
-                return redirect('user:profile_view',request.user.id)
+                return redirect('user:profile_view',user_id=request.user.id)
             else:
                 return redirect('home:home_view')
         
@@ -89,3 +89,51 @@ def profile_view(request:HttpRequest,user_id):
 
 
         return render(request,'user/profile.html',{'user':user,'student':student,'massage':msg})
+
+
+def update_profile_view(request:HttpRequest,user_id):
+
+    user = User.objects.get(id=request.user.id)
+    years = StudentProfile(user=user)
+    if request.user.is_authenticated:
+            if request.method == 'POST':
+
+                user.first_name = request.POST['first_name']
+                user.last_name =  request.POST['last_name']
+                user.email = request.POST['email']
+
+                user.save()
+
+                try:
+                    manager_profile=user.StudentProfile
+
+                except Exception as e:
+                        
+                    manager_profile = StudentProfile(user=user)
+
+                manager_profile.phone_number = request.POST['phone_number']
+                manager_profile.major = request.POST['major']
+                manager_profile.university_name = request.POST['university_name']
+                manager_profile.x_link = request.POST['x_link']
+                manager_profile.year_of_study = request.POST['year_of_study']
+                manager_profile.cv = request.FILES['cv']
+                manager_profile.linkedIn = request.POST['linkedIn']
+                manager_profile.trascript = request.FILES['trascript']
+                manager_profile.medical_health = request.FILES['medical_health']
+                manager_profile.bio = request.POST['bio']                         
+                                                            
+                if 'manager_avatar' in request.FILES:
+
+                        manager_profile.manager_avatar = request.FILES['manager_avatar']
+
+                manager_profile.save()
+
+                return redirect('user:profile_view',request.user.id)
+    
+    context = {
+        'user':user,
+        'years_of_studies':years.years_of_studies
+    }
+                
+                        
+    return render(request,'user/update_profile.html',context)

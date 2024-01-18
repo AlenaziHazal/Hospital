@@ -1,0 +1,133 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %} <title>Update Profile</title> {% endblock %}
+
+
+
+
+{% block body %}
+
+<section class="container primary-color-1 border rounded mt-5 shadow-lg">   
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center ">
+        <h1 class="text-center" >Update Profile</h1>
+        <div class="col-6  ">
+            
+            <form class="form-control mb-3"  action="{% url 'user:update_profile_view' request.user.id %}"  method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Manager Profile Information -->
+                
+
+                <div class="row mb-3">
+
+                    <div class="col-6">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" id="first_name" name="first_name" value="{{user.first_name}}" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" value="{{user.last_name}}" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-6">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="{{user.email}}" class="form-control" required>
+                    </div>  
+                    
+                    <div class="col-6">
+                        <label for="phone_number">Phone Number:</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">+966</span>
+                            <input  type="text" id="phone_number" name="phone_number" value="{{user.studentprofile.phone_number}}" maxlength="10" class="form-control" required>
+                            
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-6">
+                        <label for="cv">Resume:</label>
+                        <input type="file" id="cv" name="cv" value="{{user.studentprofile.cv}}" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="trascript">Acedemic Trascript:</label>
+                        <input type="file" id="trascript" name="trascript" value="{{user.studentprofile.trascript}}" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="medical_health">Medical Health:</label>
+                        <input type="file" id="medical_health" name="medical_health" value="{{user.studentprofile.medical_health}}" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="major">Major: </label> 
+                        <input type="text" id="major" name="major" class="form-control">
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label class="from-label">Years Of Study:</label>
+                        <select name="year_of_study" class="form-select" required>
+                            <option selected>Select Years</option>
+                            {% for key,value in years_of_studies.choices %}
+                                <option value="{{key}}">{{value}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="university_name">University Name:</label>
+                        <input type="text" id="university_name" value="{{user.studentprofile.university_name}}" name="university_name" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3" >
+
+                    <div class="col-6">
+                        <label for="x_link">X Link:</label>
+                        <input type="url" id="x_link" value="{{user.studentprofile.x_link}}" name="x_link" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="linkedIn">LinkedIn Profile:</label>
+                        <input type="url" id="linkedIn" value="{{user.studentprofile.linkedIn}}" name="linkedIn" class="form-control" required>
+                    </div>
+
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="form-group">
+                        <label for="bio">Bio:</label>
+                        <textarea id="bio" name="bio" class="form-control" rows="4" required>{{user.studentprofile.bio   }}</textarea>
+                    </div>
+                    
+                </div>         
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</section>
+
+
+
+
+
+
+{% endblock %}

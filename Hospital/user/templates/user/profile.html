@@ -24,18 +24,17 @@
                     <div class="row align-items-center">
                         <div class="col-md-3">
                             <div class="text-center border-end">
-                                <img src="{{ user.investorprofile.inverstor_avatar.url }}" class="img-fluid avatar-xxl rounded" alt="">
+                                <img src="{{ user.studentprofile.url }}" class="img-fluid avatar-xxl rounded" alt="">
                                 <h4 class="text-primary font-size-20 mt-3 mb-2">{{ user.first_name }} {{ user.last_name }}</h4>
-                                <h5 class="text-muted font-size-13 mb-0">{{ user.investorprofile.specialization }}</h5>
+                                <h5 class="text-muted font-size-13 mb-0">{{ user.studentprofile.user }}</h5>
                             </div>
                         </div><!-- end col -->
                         <div class="col-md-9">
                             <div class="ms-3">
                                 <div>
-                                    <h4 class="card-title mb-2">Biography</h4>
-                                    <p class="mb-0 text-muted">{{ user.investorprofile.inverstor_bio }}</p>
-                                    <p><strong>Birth Day:</strong> {{ user.investorprofile.inverstor_birth_day }}</p>
-                                    <p><strong>City:</strong> {{ user.investorprofile.inverstor_city }}</p>
+                                    <h4 class="card-title mb-2">Profile Student</h4>
+                                    <p><strong>Major:</strong> {{ user.studentprofile.major }}</p>
+                                    <p><strong>University:</strong> {{ user.studentprofile.university_name }}</p>
  
                                 </div>
                                 <div class="row my-4">
@@ -48,7 +47,7 @@
                                               
                                               <div>
                                                 <i class="bi bi-phone me-2"></i>
-                                                <a href="tel:{{ user.investorprofile.inverstor_phone_number }}" class="text-muted">{{ user.investorprofile.inverstor_phone_number }}</a>
+                                                <a href="tel:{{ user.studentprofile.phone_number }}" class="text-muted">{{ user.studentprofile.phone_number }}</a>
                                               </div>
                                         </div>
                                     </div><!-- end col -->
@@ -57,18 +56,18 @@
                                 <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied" role="tablist">
                                     <li class="nav-item" role="presentation">
 
-                                        <a class="nav-link px-4" href="{{ user.investorprofile.inverstor_LinkedIn }}" target="__blank">
+                                        <a class="nav-link px-4" href="{{ user.studentprofile.linkedIn }}" target="__blank">
                                             <i class="bi bi-linkedin"></i> LinkedIn
                                         </a>
                                     </li><!-- end li -->
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link px-4 "  href="{{ user.investorprofile.inverstor_x_link }}" target="__blank">
+                                        <a class="nav-link px-4 "  href="{{ user.studentprofile.x_link }}" target="__blank">
                                             <i class="bi bi-twitter-x"></i>
                                         </a>
                                     </li><!-- end li -->
                                     <li class="nav-item" role="presentation">
                                         {% if request.user.id == user.id %}
-                                        <a class="btn btn-primary" href="{% url 'user:update_profile_view' %}">Update Profile</a>
+                                        <a class="btn btn-primary" href="{% url 'user:update_profile_view' request.user.id %}">Update Profile</a>
                                         {% endif %}
                                     </li><!-- end li -->
 
