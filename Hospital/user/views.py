@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpRequest,HttpResponse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from django.contrib.auth import login, logout, authenticate
 # Create your views here.
 
@@ -25,6 +25,40 @@ def login_view(request:HttpRequest):
 def signup_view(request:HttpRequest):
     massage = ''
     if request.method == 'POST':
-        new_user = User.objects.create_user(username=request.POST['username'],email=request.POST['email'],password=request.POST['password'])
+        try:
+
+            new_user = User.objects.create_user(username=request.POST['username'],email=request.POST['email'],password=request.POST['password'])
+
+            user_field = request.POST['selected_option']
+
+            if user_field == 'student':
+                if not new_user.groups.filter(name='student').exists():
+                    group = Group.objects.get(name="student")
+                    new_user.groups.add(group)
+
+            elif user_field == 'hospital':
+                if not new_user.groups.filter(name='hospital').exists():
+                    group = Group.objects.get(name="hospital")
+                    new_user.groups.add(group)
+            
+            return redirect('user:login_view')
+        except Exception as e:
+            massage = f'this is th eroor'
+            return massage
     
     return render(request,'user/signup.html',{'massage':massage})
+
+def view_all_hospitals(request:HttpRequest):
+
+    investors = User.objects.filter(groups__name ='hospital').count()
+    print(investors)
+
+    return redirect('home:home_view')
+
+def logout_view(request:HttpRequest):
+
+    if request.user.is_authenticated:
+
+        logout(request)
+
+        return redirect('user:login_view')

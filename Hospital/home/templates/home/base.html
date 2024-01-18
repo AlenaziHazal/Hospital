@@ -23,7 +23,7 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="">Home</a>   
               </li>
-              <li><a class="nav-link active" aria-current="page" href="">Hospitals</a></li>
+              <li><a class="nav-link active" aria-current="page" href="{% url 'user:view_all_hospitals' %}">Hospitals</a></li>
             </ul>
             <div class="d-flex gap-2">
               {% if request.user.is_authenticated %}
@@ -38,14 +38,14 @@
                   <li><a class="dropdown-item" href="">Create Startup</a></li>
                   <li><a class="dropdown-item" href="">Startup</a></li>
                   {% endif %}
-                  <li><a class="dropdown-item text-danger" href="">Logout</a></li>
+                  <li><a class="dropdown-item text-danger" href="{% url 'user:logout_view' %}">Logout</a></li>
 
                 </ul>
               </lu>
               
               {% else %}
-                <a class="nav-link" href="">Login</a>
-                <a class="nav-link" href="">SignUp</a>
+                <a class="nav-link" href="{% url 'user:login_view' %}">Login</a>
+                <a class="nav-link" href="{% url 'user:signup_view' %}">SignUp</a>
               {% endif %}
             </div>
           </div>
