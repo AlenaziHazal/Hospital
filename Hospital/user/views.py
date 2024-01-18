@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpRequest,HttpResponse
 from django.contrib.auth.models import User,Group
 from django.contrib.auth import login, logout, authenticate
+from .models import StudentProfile
 # Create your views here.
 
 
@@ -41,7 +42,13 @@ def signup_view(request:HttpRequest):
                     group = Group.objects.get(name="hospital")
                     new_user.groups.add(group)
             
-            return redirect('user:login_view')
+            user = authenticate(request, username=request.POST['username'],password=request.POST['password'])
+
+            if user:
+                login(request,user)
+            
+            return redirect('user:profile_view',request.user.id)
+        
         except Exception as e:
             massage = f'this is th eroor'
             return massage
@@ -62,3 +69,19 @@ def logout_view(request:HttpRequest):
         logout(request)
 
         return redirect('user:login_view')
+    
+def profile_view(request:HttpRequest,user_id):
+        
+        msg = None
+        user = User.objects.get(id=user_id)
+        
+        student = User.objects.filter(groups__name ='student')       
+
+        if request.user in student:
+            try:
+                profile = request.user.StudentProfile
+            except Exception:
+                msg = 'Please update your profile'
+
+
+        return render(request,'user/profile.html',{'user':user,'student':student,'massage':msg})
