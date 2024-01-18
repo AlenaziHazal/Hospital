@@ -61,8 +61,8 @@ def signup_view(request:HttpRequest):
 
 def view_all_hospitals(request:HttpRequest):
 
-    investors = User.objects.filter(groups__name ='hospital').count()
-    print(investors)
+    hospital = User.objects.filter(groups__name ='hospital').count()
+    print(hospital)
 
     return redirect('home:home_view')
 
