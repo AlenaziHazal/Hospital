@@ -24,5 +24,7 @@ def login_view(request:HttpRequest):
 
 def signup_view(request:HttpRequest):
     massage = ''
+    if request.method == 'POST':
+        new_user = User.objects.create_user(username=request.POST['username'],email=request.POST['email'],password=request.POST['password'])
     
     return render(request,'user/signup.html',{'massage':massage})
