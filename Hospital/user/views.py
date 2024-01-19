@@ -23,6 +23,7 @@ def login_view(request:HttpRequest):
     return render(request,'user/login.html',{'massage':massage})
 
 
+
 def signup_view(request:HttpRequest):
     massage = ''
     if request.method == 'POST':
@@ -61,8 +62,7 @@ def signup_view(request:HttpRequest):
 
 def view_all_hospitals(request:HttpRequest):
 
-    hospital = User.objects.filter(groups__name ='hospital').count()
-    print(hospital)
+    hospital = User.objects.filter(groups__name ='hospital')
 
     return redirect('home:home_view')
 
@@ -76,19 +76,19 @@ def logout_view(request:HttpRequest):
     
 def profile_view(request:HttpRequest,user_id):
         
-        msg = None
-        user = User.objects.get(id=user_id)
-        
-        student = User.objects.filter(groups__name ='student')       
+    msg = None
+    user = User.objects.get(id=user_id)
+    
+    student = User.objects.filter(groups__name ='student')       
 
-        if request.user in student:
-            try:
-                profile = request.user.StudentProfile
-            except Exception:
-                msg = 'Please update your profile'
+    if request.user in student:
+        try:
+            profile = request.user.StudentProfile
+        except Exception:
+            msg = 'Please update your profile'
 
 
-        return render(request,'user/profile.html',{'user':user,'student':student,'massage':msg})
+    return render(request,'user/profile.html',{'user':user,'student':student,'massage':msg})
 
 
 def update_profile_view(request:HttpRequest,user_id):
@@ -133,7 +133,11 @@ def update_profile_view(request:HttpRequest,user_id):
     context = {
         'user':user,
         'years_of_studies':years.years_of_studies
-    }
-                
-                        
+    }                        
     return render(request,'user/update_profile.html',context)
+
+def investors_view(request:HttpRequest):
+
+    investors = User.objects.filter(groups__name ='hospital')
+
+    return render(request,'user/investors.html',{'investors':investors})
