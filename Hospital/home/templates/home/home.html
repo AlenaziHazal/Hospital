@@ -6,7 +6,7 @@
 {% if request.user.is_authenticated %}
   {% if user in hospital %}
     {% block hospital %}
-      <li><a class="nav-link active" aria-current="page" href="">Add Training</a></li>
+      <li><a class="nav-link active" aria-current="page" href="{% url 'user:add_training_view' %}">Add Training</a></li>
     {% endblock %}
   {% endif %}
 {% endif %}

@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpRequest,HttpResponse
 from django.contrib.auth.models import User,Group
 from django.contrib.auth import login, logout, authenticate
-from .models import StudentProfile
+from .models import StudentProfile,Hospital
 # Create your views here.
 
 
@@ -141,3 +141,18 @@ def investors_view(request:HttpRequest):
     investors = User.objects.filter(groups__name ='hospital')
 
     return render(request,'user/investors.html',{'investors':investors})
+
+def add_training_view(request:HttpRequest):
+
+    if request.method == 'POST':
+        user = User.objects.get(id=request.user.id)
+        new_training = Hospital(user=user,depatrtment=request.POST['depatrtment'],training_period=request.POST['training_period'],number_of_student_need=request.POST['number_of_student_need'],for_contact_number=request.POST['for_contact_number'],for_contact_email=request.POST['for_contact_email'],image=request.FILES['image'])
+        new_training.save()
+        return redirect('home:home_view')
+    
+    return render(request,'user/create_training.html',{'department':Hospital.deparments,'students':Hospital.students})
+
+def all_training_view(request:HttpRequest,hospital_id):
+    training = Hospital.objects.filter(user=hospital_id)
+
+    return render(request,'user/hopsital_training.html',{'trainings':training})

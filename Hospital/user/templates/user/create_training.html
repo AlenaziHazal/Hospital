@@ -1,0 +1,63 @@
+{% extends 'home/base.html' %}
+{% block title %} <title>create startup</title>{% endblock %}
+
+
+{% block body %}
+<section class="container primary-color-1 border rounded mt-5">
+    <div class="container ms-0 p-2">
+        <form class="row" action="{% url 'user:add_training_view' %}" method="POST" enctype="multipart/form-data">
+            {% if massage %}
+            <div class="alert alert-danger" role="alert">
+                {{massage}}
+            </div>
+            {% endif %}
+
+            {% csrf_token %}
+            <h1>Training Form</h1>
+            <div class="col-md-6">
+                <label class="from-label">Student Capacity:</label>
+                    <select name="number_of_student_need" class="form-select" required>
+                        <option selected>Select Years</option>
+                        {% for key,value in students.choices %}
+                            <option value="{{key}}">{{value}}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+            <div class="col-md-6">
+                <label class="from-label">Department:</label>
+                <select name="depatrtment" class="form-select">
+                    <option value="" selected>Select Sector</option>
+                    {% for key,value in department.choices %}
+                    <option value="{{key}}">{{value}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="from-label">Department Number:</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">+966</span>
+                    <input type="number" class="form-control" placeholder="Number" name="for_contact_number">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="from-label">Department Email:</label>
+                <input type="email" name="for_contact_email" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label class="from-label">Training Period:</label>
+                <input type="text" name="training_period" class="form-control">
+            </div>
+            <div class="col-md-12">
+                <label for="trascript">Avatar:</label>
+                <input type="file" id="trascript" name="image" value="{{user.studentprofile.trascript}}" class="form-control" required>
+            </div>
+
+            <div class="col-12 d-flex justify-content-center">
+                <input type="submit" class="btn btn-primary mt-3 col-4">
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

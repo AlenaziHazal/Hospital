@@ -28,10 +28,14 @@ class Hospital(models.Model):
     students = models.TextChoices('students',['1','2','3','4','5','6','7','8','9','10'])
     deparments = models.TextChoices('deparments',['Surgery','Internal Medicine','Emergency','Orthopedic surgery','Ophthalmology'])
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     depatrtment = models.CharField(max_length=1024)
     training_period = models.TextField()
     number_of_student_need = models.CharField(max_length=1024,choices=students.choices)
-    for_contact = models.TextField()
+    for_contact_number = models.TextField()
+    for_contact_email = models.EmailField()
+    image = models.ImageField(upload_to='images/')
+    def __str__(self) -> str:
+        return self.depatrtment
 
 
